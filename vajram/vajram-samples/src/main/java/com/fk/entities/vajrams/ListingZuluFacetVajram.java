@@ -1,7 +1,9 @@
 package com.fk.entities.vajrams;
 
 import com.fk.entities.models.Listing;
+import com.flipkart.krystal.vajram.ExecutionContext;
 import com.flipkart.krystal.vajram.NonBlockingVajram;
+import com.flipkart.krystal.vajram.RequestBuilder;
 import com.flipkart.krystal.vajram.VajramDef;
 import com.flipkart.krystal.vajram.VajramID;
 import com.flipkart.krystal.vajram.VajramLogic;
@@ -16,7 +18,13 @@ public class ListingZuluFacetVajram extends NonBlockingVajram {
     @Override
     public List<VajramInputDefinition> getInputDefinitions() {
         return List.of(
-                Dependency.builder().name("zulu_listing").dependencySpec(VajramID.vajramID("ZuluVJ")).isMandatory().build());
+                Dependency.builder().name("zulu_listing").dataAccessSpec(VajramID.vajramID("ZuluVJ")).isMandatory().build());
+    }
+
+    @Override
+    public com.google.common.collect.ImmutableList<RequestBuilder<?>> resolveInputOfDependency(String dependency,
+            com.google.common.collect.ImmutableSet resolvableInputs, ExecutionContext executionContext) {
+        return null;
     }
 
     @VajramLogic
@@ -26,5 +34,10 @@ public class ListingZuluFacetVajram extends NonBlockingVajram {
         listing.deserializeZuluResponse(zuluResponse);
 
         return listing;
+    }
+
+    @Override
+    public com.google.common.collect.ImmutableList executeNonBlocking(ExecutionContext executionContext) {
+        return null;
     }
 }
